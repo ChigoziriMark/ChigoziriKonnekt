@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "250714728934",
+    "project_id": "chigoziri-konnect",
+    "storage_bucket": "chigoziri-konnect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:250714728934:android:402713a822be73f0b5ce27",
+        "android_client_info": {
+          "package_name": "com.example.chigozirikonnekt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "250714728934-tr1p1b893n248qo5gvgveu4a7tvq1fjh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.chigozirikonnekt",
+            "certificate_hash": "c0d1478d043d5377c78e8fb294ae328e7857954d"
+          }
+        },
+        {
+          "client_id": "250714728934-ge7qqh3vku4ie237vbnrivkp6jtsougv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTsYhj0FdXufXMUDIkUzbYvNq87eJSnj4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "250714728934-ge7qqh3vku4ie237vbnrivkp6jtsougv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
