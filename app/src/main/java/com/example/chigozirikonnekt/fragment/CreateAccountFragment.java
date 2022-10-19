@@ -1,5 +1,7 @@
 package com.example.chigozirikonnekt.fragment;
 
+import static com.example.chigozirikonnekt.fragment.LogInFragment.validate;
+
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -29,6 +31,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class CreateAccountFragment extends Fragment {
@@ -38,7 +42,13 @@ public class CreateAccountFragment extends Fragment {
     private Button signUpBtn;
     private FirebaseAuth auth;
 
-    public static final String EMAIL_REGEX = "^(.+)@(.+)$";
+    public static final Pattern EMAIL_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean validate(String emailStr) {
+        Matcher matcher = EMAIL_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
 
 
 
@@ -60,6 +70,7 @@ public class CreateAccountFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
+        clickListener();
     }
 
     private void init(View view){
@@ -102,7 +113,7 @@ public class CreateAccountFragment extends Fragment {
                     nameET.setError("Please Enter your name here");
                     return;
                 }
-                if (email.isEmpty() || !email.matches(EMAIL_REGEX)){
+                if (email.isEmpty() || validate(email) == false){
                     emailET.setError("Please Enter a valid email address");
                     return;
                 }

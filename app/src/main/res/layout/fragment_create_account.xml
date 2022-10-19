@@ -82,6 +82,7 @@
         android:layout_above="@id/signupBtn"/>
 
     <Button
+        android:id="@+id/signupBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sign Up"
@@ -91,13 +92,13 @@
         android:textColor="#fff"
         android:layout_above="@id/loginTV"
         android:layout_marginBottom="16dp"
-        android:id="@+id/signupBtn"/>
+        />
 
     <TextView
+        android:id="@+id/loginTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/loginTV"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="26dp"
         android:text="Log In"

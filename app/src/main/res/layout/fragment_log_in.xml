@@ -51,7 +51,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Forogt Password"
+            android:text="Forgot Password"
             android:textColor="@color/colorGreen"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"
@@ -70,17 +70,18 @@
         android:layout_centerHorizontal="true"
         android:visibility="gone"
         />
+
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Log in"
-        android:background="@drawable/btn_bg"
+        android:layout_above="@id/googleSignInBtn"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:textColor="#fff"
-        android:layout_above="@id/googleSignInBtn"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/btn_bg"
+        android:text="Log in"
+        android:textColor="#fff" />
 
     <Button
         android:id="@+id/googleSignInBtn"
@@ -89,7 +90,7 @@
         android:layout_above="@id/signUpTV"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginBottom="126dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/btn_bg"
         android:text="Google Sign In"
         android:textColor="#fff" />

@@ -44,6 +44,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class LogInFragment<firebaseCredential, idToken> extends Fragment {
@@ -56,6 +58,14 @@ public class LogInFragment<firebaseCredential, idToken> extends Fragment {
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth auth;
 
+
+    public static final Pattern EMAIL_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
+    public static boolean validate(String emailStr) {
+        Matcher matcher = EMAIL_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
 
     public LogInFragment() throws ApiException {
         // Required empty public constructor
@@ -75,6 +85,7 @@ public class LogInFragment<firebaseCredential, idToken> extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init(view);
+
         clickListener();
     }
 
@@ -103,7 +114,7 @@ public class LogInFragment<firebaseCredential, idToken> extends Fragment {
                 String email = emailET.getText().toString();
                 String password = passwordET.getText().toString();
 
-                if (email.isEmpty() || email.matches(EMAIL_REGEX)){
+                if (email.isEmpty() || validate(email) == false){
                     emailET.setError("Input valid email");
                     return;
                 }
@@ -162,63 +173,37 @@ public class LogInFragment<firebaseCredential, idToken> extends Fragment {
         getActivity().finish();
     }
 
-    private void signIn() {
-        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+    private void signIn(){
+        Intent signInIntent =mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-    
 
-
-    public class YourActivity extends AppCompatActivity {
-
-        // ...
-        private static final int REQ_ONE_TAP = 2;  // Can be any integer unique to the Activity.
-        private static final String TAG = "";
-        private boolean showOneTapUI = true;
-        // ...
-
-        @Override
-        protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-
-            switch (requestCode) {
-                case REQ_ONE_TAP:
-                    try {
-                        SignInClient oneTapClient = null;
-                        SignInCredential credential = oneTapClient.getSignInCredentialFromIntent(data);
-                        String idToken = credential.getGoogleIdToken();
-                        if (idToken !=  null) {
-                            // Got an ID token from Google. Use it to authenticate
-                            // with Firebase.
-                            Log.d(TAG, "Got ID token.");
-                        }
-                    } catch (ApiException e) {
-                        // ...
-                    }
-                    break;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try{
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                assert account != null;
+                firebaseAuthWithGoogle(account.getIdToken());
+            } catch (ApiException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    private SignInClient oneTapClient;
-    private Intent data;
-    SignInCredential googleCredential = oneTapClient.getSignInCredentialFromIntent(data);
-    String idToken = googleCredential.getGoogleIdToken();
-    {
-
-        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(idToken, null);
-        auth.signInWithCredential(firebaseCredential)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken,null);
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-
-                            Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = auth.getCurrentUser();
                             updateUI(user);
-                        } else {
-                            Log.w(TAG, "signInWithCredential:failure", task.getException());
-                            updateUI(null);
+                        }else {
+                            Log.d("TAG", "signInWithCredential:failure", task.getException());
                         }
                     }
                 });
