@@ -59,6 +59,7 @@ public class LogInFragment<firebaseCredential, idToken> extends Fragment {
     private FirebaseAuth auth;
 
 
+
     public static final Pattern EMAIL_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
@@ -108,6 +109,14 @@ public class LogInFragment<firebaseCredential, idToken> extends Fragment {
     }
 
     private void clickListener(){
+        forgotPasswordTV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((FragmentReplacerActivity)getActivity()).setFragment(new forgotPassword());
+            }
+        });
+
+
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -216,6 +225,10 @@ public class LogInFragment<firebaseCredential, idToken> extends Fragment {
         map.put("email", account.getEmail());
         map.put("profileImage", String.valueOf(account.getPhotoUrl()));
         map.put("uid", user.getUid());
+        map.put("following", 0);
+        map.put("followers", 0);
+        map.put("status", " ");
+
         FirebaseFirestore.getInstance().collection("Users").document(user.getUid())
                 .set(map)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
