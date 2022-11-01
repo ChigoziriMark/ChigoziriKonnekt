@@ -105,7 +105,7 @@
         android:layout_below="@+id/linear_1">
         <LinearLayout
             android:id="@+id/countLayout"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -204,22 +204,17 @@
 
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/followLayout"
+
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Follow"
-                android:background="@drawable/btn_bg"
-                android:textColor="@android:color/white"
-                android:minWidth="160dp"
-                android:layout_centerHorizontal="true"
-                android:id="@+id/followBtn"/>
-
-
-        </RelativeLayout>
+            android:layout_height="wrap_content"
+            android:text="Follow"
+            android:visibility="gone"
+            android:background="@drawable/btn_bg"
+            android:textColor="@android:color/white"
+            android:minWidth="160dp"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/followBtn"/>
     </RelativeLayout>
 
     <View
@@ -232,10 +227,10 @@
         android:id="@+id/view"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/view"
-        android:id="@+id/recyclerView"/>
+        android:layout_height="482dp"
+        android:layout_below="@+id/view" />
 
 
 
